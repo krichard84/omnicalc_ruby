@@ -15,7 +15,7 @@ class CalculationsController < ApplicationController
 
     @character_count_with_spaces = @text.length
 
-    @character_count_without_spaces = @text.gsub(/[^a-z0-9\s]/i, "")
+    @character_count_without_spaces = @text.gsub(/\s+/, "").length
 
     @occurrences = @text.split.count(@special_word)
 
@@ -152,7 +152,7 @@ class CalculationsController < ApplicationController
     
     results_sum = squared_results.sum
     
-    sample_size = @count - 1
+    sample_size = @count
     
     @variance = results_sum / sample_size
 

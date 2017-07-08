@@ -66,12 +66,35 @@ class CalculationsController < ApplicationController
     #   number of seconds as a result.
     # ================================================================================
 
-    @seconds = "Replace this string with your answer."
-    @minutes = "Replace this string with your answer."
-    @hours = "Replace this string with your answer."
-    @days = "Replace this string with your answer."
-    @weeks = "Replace this string with your answer."
-    @years = "Replace this string with your answer."
+    @seconds = @ending - @starting
+    
+    startt = @starting.to_i
+    endt = @ending.to_i
+    
+    start_min=startt * 1/60
+    end_min=endt * 1/60
+    
+    @minutes = end_min - start_min
+    
+    start_hr=startt * 1/3600
+    end_hr=endt * 1/3600
+    
+    @hours = end_hr - start_hr
+    
+    start_day=start_hr * 1/24
+    end_day=end_hr * 1/24
+  
+    @days = end_day - start_day
+    
+    start_week=start_day * 1/7
+    end_week=end_day * 1/7
+    
+    @weeks = end_week - start_week
+    
+    start_year=start_week * 1/52
+    end_year=end_week * 1/52
+    
+    @years = end_year - start_year
 
     # ================================================================================
     # Your code goes above.

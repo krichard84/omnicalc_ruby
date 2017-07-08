@@ -68,8 +68,8 @@ class CalculationsController < ApplicationController
 
     @seconds = @ending - @starting
     
-    startt = @starting.to_i
-    endt = @ending.to_i
+    startt = @starting.to_f
+    endt = @ending.to_f
     
     start_min=startt * 1/60
     end_min=endt * 1/60
@@ -133,11 +133,38 @@ class CalculationsController < ApplicationController
 
     @mean = sum_calc / count_calc
     
-    @variance = "Replace this string with your answer."
+    sample = @numbers
+    xbar = @mean
+    variance_differential = []
+    
+    sample.each do |num1|
+    number_less_xbar = num1 - xbar
+    variance_differential.push(number_less_xbar)
+    end
+    
+    squared_results = []
+    
+    variance_differential.each do |num2|
+    square = num2 * num2
+    squared_results.push(square)
+    end
+    
+    results_sum = squared_results.sum
+    
+    sample_size = @count - 1
+    
+    @variance = results_sum / sample_size
 
-    @standard_deviation = "Replace this string with your answer."
+    @standard_deviation = Math.sqrt(@variance)
 
-    @mode = "Replace this string with your answer."
+    hash = Hash.new(0)
+    @numbers.each do |i|
+      hash[i]+=1
+    end
+    
+    mode_max = hash.max
+    
+    @mode = mode_max
 
     # ================================================================================
     # Your code goes above.
@@ -146,3 +173,5 @@ class CalculationsController < ApplicationController
     render("descriptive_statistics.html.erb")
   end
 end
+
+  

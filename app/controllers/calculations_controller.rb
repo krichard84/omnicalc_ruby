@@ -11,13 +11,13 @@ class CalculationsController < ApplicationController
     # ================================================================================
 
 
-    @word_count = "Replace this string with your answer."
+    @word_count = @text.split.count
 
-    @character_count_with_spaces = "Replace this string with your answer."
+    @character_count_with_spaces = @text.length
 
-    @character_count_without_spaces = "Replace this string with your answer."
+    @character_count_without_spaces = @text.gsub(/\s+/, "").length
 
-    @occurrences = "Replace this string with your answer."
+    @occurrences = @text.split.count(@special_word)
 
     # ================================================================================
     # Your code goes above.
@@ -38,7 +38,13 @@ class CalculationsController < ApplicationController
     # The principal value the user input is in the decimal @principal.
     # ================================================================================
 
-    @monthly_payment = "Replace this string with your answer."
+    term_months = @years * 12
+    new_apr = @apr * 1/100
+    principal_month = @principal / term_months
+    interest_term = @principal * new_apr
+    interest_month = interest_term / term_months
+
+    @monthly_payment = principal_month + interest_month
 
     # ================================================================================
     # Your code goes above.
@@ -60,12 +66,35 @@ class CalculationsController < ApplicationController
     #   number of seconds as a result.
     # ================================================================================
 
-    @seconds = "Replace this string with your answer."
-    @minutes = "Replace this string with your answer."
-    @hours = "Replace this string with your answer."
-    @days = "Replace this string with your answer."
-    @weeks = "Replace this string with your answer."
-    @years = "Replace this string with your answer."
+    @seconds = @ending - @starting
+    
+    startt = @starting.to_f
+    endt = @ending.to_f
+    
+    start_min=startt * 1/60
+    end_min=endt * 1/60
+    
+    @minutes = end_min - start_min
+    
+    start_hr=startt * 1/3600
+    end_hr=endt * 1/3600
+    
+    @hours = end_hr - start_hr
+    
+    start_day=start_hr * 1/24
+    end_day=end_hr * 1/24
+  
+    @days = end_day - start_day
+    
+    start_week=start_day * 1/7
+    end_week=end_day * 1/7
+    
+    @weeks = end_week - start_week
+    
+    start_year=start_week * 1/52
+    end_year=end_week * 1/52
+    
+    @years = end_year - start_year
 
     # ================================================================================
     # Your code goes above.
@@ -82,27 +111,60 @@ class CalculationsController < ApplicationController
     # The numbers the user input are in the array @numbers.
     # ================================================================================
 
-    @sorted_numbers = "Replace this string with your answer."
+    @sorted_numbers = @numbers.sort
 
-    @count = "Replace this string with your answer."
+    @count = @numbers.count
 
-    @minimum = "Replace this string with your answer."
+    @minimum = @numbers.min
 
-    @maximum = "Replace this string with your answer."
+    @maximum = @numbers.max
 
-    @range = "Replace this string with your answer."
+    @range = @maximum - @minimum
 
-    @median = "Replace this string with your answer."
+      sorted = @numbers.sort
+      len = sorted.length
+      
+    @median = (sorted[(len - 1) / 2] + sorted[len / 2]) / 2.0
 
-    @sum = "Replace this string with your answer."
+    @sum = @numbers.sum
 
-    @mean = "Replace this string with your answer."
+      sum_calc = @sum.to_f
+      count_calc = @count.to_f
 
-    @variance = "Replace this string with your answer."
+    @mean = sum_calc / count_calc
+    
+    sample = @numbers
+    xbar = @mean
+    variance_differential = []
+    
+    sample.each do |num1|
+    number_less_xbar = num1 - xbar
+    variance_differential.push(number_less_xbar)
+    end
+    
+    squared_results = []
+    
+    variance_differential.each do |num2|
+    square = num2 * num2
+    squared_results.push(square)
+    end
+    
+    results_sum = squared_results.sum
+    
+    sample_size = @count - 1
+    
+    @variance = results_sum / sample_size
 
-    @standard_deviation = "Replace this string with your answer."
+    @standard_deviation = Math.sqrt(@variance)
 
-    @mode = "Replace this string with your answer."
+    hash = Hash.new(0)
+    @numbers.each do |i|
+      hash[i]+=1
+    end
+    
+    mode_max = hash.max
+    
+    @mode = mode_max
 
     # ================================================================================
     # Your code goes above.
@@ -111,3 +173,5 @@ class CalculationsController < ApplicationController
     render("descriptive_statistics.html.erb")
   end
 end
+
+  
